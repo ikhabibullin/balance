@@ -16,3 +16,8 @@ flake8 src && black --check src && autoflake --check -r src
 ~~~
 autoflake -r src && black src
 ~~~
+
+## Запустить тесты
+~~~
+pytest -v
+~~~
