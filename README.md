@@ -9,12 +9,12 @@ uvicorn src.main:app --reload
 
 ## Запустить анализаторы кода
 ~~~
-flake8 src && black --check src && autoflake --check -r src
+sh lint.sh
 ~~~
 
 ## Форматировать код
 ~~~
-autoflake -r src && black src
+sh format.sh
 ~~~
 
 ## Запустить тесты
