@@ -11,6 +11,8 @@ uvicorn src.main:app --reload
 docker-compose up -d --build
 ~~~
 
+- #### Состояние задач можно посмотреть во Flower, стандартно в localhost:5555 login:admin, pass: admin
+
 ## Запустить анализаторы кода
 ~~~
 sh scripts/lint.sh
