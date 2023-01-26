@@ -1,20 +1,24 @@
 # balance
 
-## Запустить локально
+## Поднять сервисы и Запустить локально
 ~~~
-poetry install
-poetry shell
+sh scripts/prepare_for_launch.sh
 uvicorn src.main:app --reload
+~~~
+
+## Поднять сервисы (postgresql, rabbitmq, redis, celery, flower), конфиги в .env
+~~~
+docker-compose up -d --build
 ~~~
 
 ## Запустить анализаторы кода
 ~~~
-sh lint.sh
+sh scripts/lint.sh
 ~~~
 
 ## Форматировать код
 ~~~
-sh format.sh
+sh scripts/format.sh
 ~~~
 
 ## Запустить тесты
