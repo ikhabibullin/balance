@@ -1,16 +1,15 @@
 from fastapi import FastAPI
-from worker import create_task
+
+from db import engine, Base
+
+from api.v1.balance import router as balance_router
+
+app = FastAPI(title='Balance service')
+app.include_router(balance_router)
 
 
-app = FastAPI()
-
-
-@app.get("/")
-def hello():
-    return {"Hello": "World"}
-
-
-@app.post("/tasks", status_code=201)
-def run_task():
-    task = create_task.delay()
-    return {"task_id": task.id}
+@app.on_event('startup')
+async def startup():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
