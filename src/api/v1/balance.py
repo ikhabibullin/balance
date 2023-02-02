@@ -18,8 +18,5 @@ async def add_money_api(data: AddMoney, session: AsyncSession = Depends(get_tran
 @router.post('/reserve', summary='Резервирует деньги пользователя')
 async def reserve_money_api(data: ReserveIn):
     reserve = await reserve_money(data=data)
-    # TODO: переделать
-    if type(reserve) == str:
-        return {'msg': reserve}
 
     return ReserveOut.from_orm(reserve)
