@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from pydantic import UUID4, PositiveInt
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
@@ -28,8 +29,7 @@ async def reserve_money(data: ReserveIn):
             raw = await session.execute(select_balance)
             balance = raw.scalar_one_or_none()
             if not balance:
-                # TODO: переделать
-                return 'Нет баланса такого пользователя'
+                raise HTTPException(status_code=404, detail='Balance пользователя не найден')
 
             if balance.money >= data.money:
                 balance.money -= data.money
@@ -49,5 +49,4 @@ async def reserve_money(data: ReserveIn):
                 reserve = (await session.execute(insert_reserve)).fetchone()
                 return reserve
             else:
-                # TODO: переделать
-                return 'Недостаточно средств'
+                raise HTTPException(status_code=404, detail='На балансе недостаточно средств для резервирования')
