@@ -521,6 +521,21 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
 
 [[package]]
+name = "pytest-asyncio"
+version = "0.20.3"
+description = "Pytest support for asyncio"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+pytest = ">=6.1.0"
+
+[package.extras]
+docs = ["sphinx (>=5.3)", "sphinx-rtd-theme (>=1.0)"]
+testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)", "flaky (>=3.5.0)", "mypy (>=0.931)", "pytest-trio (>=0.7.0)"]
+
+[[package]]
 name = "pytz"
 version = "2022.7.1"
 description = "World timezone definitions, modern and historical"
@@ -681,7 +696,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8a457750091e755cf85ee37f136f346d788060258ad8abaa19593f201ccc4b37"
+content-hash = "9e3ffd5fee140effd768c511c4db965f368720412bde831381444bc70b3bb7af"
 
 [metadata.files]
 amqp = []
@@ -732,6 +747,7 @@ pycodestyle = []
 pydantic = []
 pyflakes = []
 pytest = []
+pytest-asyncio = []
 pytz = []
 redis = []
 rfc3986 = []
