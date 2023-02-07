@@ -13,7 +13,7 @@ class AddMoney(UserMoney):
 
 
 class Balance(UserMoney):
-    id: UUID4
+    pass
 
 
 class ReserveIn(BaseModel):

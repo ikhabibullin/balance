@@ -21,6 +21,7 @@ autoflake = "^2.0.0"
 flake8 = "^6.0.0"
 pytest = "^7.2.1"
 httpx = "^0.23.3"
+pytest-asyncio = "^0.20.3"
 
 [tool.black]
 line-length = 120
