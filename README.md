@@ -25,5 +25,5 @@ sh scripts/format.sh
 
 ## Запустить тесты
 ~~~
-pytest -v
+pytest
 ~~~
