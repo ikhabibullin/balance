@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from models import Balance, Reserved
+from models import Balance, Reserved, StatusEnum
 from services import BalanceService
 
 
@@ -65,3 +65,36 @@ async def test_reserve_fail(session, balance):
     with pytest.raises(IntegrityError):
         await bs.reserve_money(money=money_to_reserve1, service_id=uuid.uuid4(), order_id=uuid.uuid4())
         await bs.reserve_money(money=money_to_reserve2, service_id=uuid.uuid4(), order_id=uuid.uuid4())
+
+
+async def test_get_balance(session, balance):
+    bs = BalanceService(session=session, user_id=balance.user_id)
+
+    b = await bs.get_balance()
+
+    assert b is not None
+    assert b.user_id == balance.user_id
+
+
+async def test_get_balance_fail(session, balance):
+    bs = BalanceService(session=session, user_id=uuid.uuid4())
+
+    b = await bs.get_balance()
+
+    assert b is None
+
+
+async def test_accept_reserved(session, reserved):
+    bs = BalanceService(session=session, user_id=reserved.balance_id)
+
+    row = await bs.accept_reserved(reserved.id)
+
+    assert row.status == StatusEnum.accepted
+
+
+async def test_reject_reserved(session, reserved):
+    bs = BalanceService(session=session, user_id=reserved.balance_id)
+
+    row = await bs.reject_reserved(reserved.id)
+
+    assert row.status == StatusEnum.rejected

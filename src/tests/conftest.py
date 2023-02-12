@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from db import Base, engine, async_session
 from main import app
-from models import Balance
+from models import Balance, Reserved
 
 
 @pytest.fixture(scope='session')
@@ -48,3 +48,23 @@ async def balance():
             b = res.fetchone()
 
     yield b
+
+
+@pytest_asyncio.fixture(scope='function')
+async def reserved():
+    async with async_session() as s:
+        async with s.begin():
+            user_id = uuid.uuid4()
+            stmt = insert(Balance).values({'user_id': user_id, 'money': 4})
+
+            await s.execute(stmt)
+
+            stmt = (
+                insert(Reserved)
+                .values(balance_id=user_id, order_id=uuid.uuid4(), service_id=uuid.uuid4(), money=1)
+                .returning(*Reserved.returning())
+            )
+            res = await s.execute(stmt)
+            r = res.fetchone()
+
+    yield r

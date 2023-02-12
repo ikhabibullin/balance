@@ -1,6 +1,8 @@
 import abc
 
-from pydantic import BaseModel, UUID4, PositiveInt
+from pydantic import BaseModel, PositiveInt, UUID4
+
+from models import StatusEnum
 
 
 class UserMoney(BaseModel, abc.ABC):
@@ -13,7 +15,8 @@ class AddMoney(UserMoney):
 
 
 class Balance(UserMoney):
-    pass
+    class Config:
+        orm_mode = True
 
 
 class ReserveIn(BaseModel):
@@ -29,6 +32,7 @@ class ReserveOut(BaseModel):
     money: PositiveInt
     service_id: UUID4
     order_id: UUID4
+    status: StatusEnum
 
     class Config:
         orm_mode = True

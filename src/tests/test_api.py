@@ -32,7 +32,7 @@ async def test_reserve(async_client, session, balance):
         'service_id': str(uuid.uuid4()),
     }
 
-    response = await async_client.post('/reserve', data=json.dumps(data))
+    response = await async_client.post('/reserves', data=json.dumps(data))
     response_data = response.json()
 
     assert response.status_code == 200
@@ -50,10 +50,25 @@ async def test_reserve_fail(async_client, session, balance):
     data2 = {**data1, 'money': -1}
     data3 = {**data1, 'money': balance.money + 1}
 
-    response1 = await async_client.post('/reserve', data=json.dumps(data1))
-    response2 = await async_client.post('/reserve', data=json.dumps(data2))
-    response3 = await async_client.post('/reserve', data=json.dumps(data3))
+    response1 = await async_client.post('/reserves', data=json.dumps(data1))
+    response2 = await async_client.post('/reserves', data=json.dumps(data2))
+    response3 = await async_client.post('/reserves', data=json.dumps(data3))
 
     assert response1.status_code == 404
     assert response2.status_code == 422
     assert response3.status_code == 404
+
+
+async def test_get_balance(async_client, session, balance):
+    response = await async_client.get(f'/{balance.user_id}')
+    response_data = response.json()
+
+    assert response.status_code == 200
+    assert response_data.get('user_id') == str(balance.user_id)
+    assert response_data.get('money') == balance.money
+
+
+async def test_get_balance_fail(async_client, session):
+    response = await async_client.get(f'/{uuid.uuid4()}')
+
+    assert response.status_code == 404
