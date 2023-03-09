@@ -3,7 +3,7 @@
 ## Поднять сервисы и Запустить локально
 ~~~
 sh scripts/prepare_for_launch.sh
-uvicorn src.main:app --reload
+uvicorn main:app --reload
 ~~~
 
 ## Поднять сервисы (postgresql, rabbitmq, redis, celery, flower), конфиги в .env
